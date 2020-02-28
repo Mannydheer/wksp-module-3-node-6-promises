@@ -9,10 +9,39 @@
 // 3. Once you have it working, pass it a few address to see what the responses look like.
 // 4. Make sure to only return an object with lat/lng and not the whole response
 
+
+
+
+const opencage = require('opencage-api-client');
+
+
+
 function getAddressPosition(address) {
     const requestObj = {
-        key: '<MY_API_KEY>',
+        key: '',
         q: address
     };
-
+    //sending obejct to the API
+    return opencage.geocode(requestObj)
+        .then(data => { //data is what we got back from server** Wheatever response is given will go to the data., 
+            //if it is ok
+            if (data.status.code == 200) {
+                if (data.results.length > 0) {
+                    const place = data.results[0];
+                    let holder = place.geometry;
+                    return holder;
+                }
+            } else {
+                // other possible response codes:
+                // https://opencagedata.com/api#codes
+                console.log('error', data.status.message);
+            }
+        })
+        .catch(error => console.log('error', error.message));
 }
+
+getAddressPosition('1455 Boulevard de Maisonneuve O, Montréal, QC H3G 1M8')
+    //this comes back as a promise. 
+    .then(holder => {
+        console.log(holder);
+    });

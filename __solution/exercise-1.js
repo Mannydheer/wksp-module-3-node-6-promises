@@ -10,18 +10,19 @@
 
 // require the 'request-promise' module.
 const request = require('request-promise');
-
 // Returns the current position of the ISS
 function getIssPosition() {
     return request('http://api.open-notify.org/iss-now.json')
         .then(response => {
             // Parse as JSON
+            console.log(response);
             const issLocation = JSON.parse(response);
             // Return object with lat and lng
             return {
                 lat: issLocation.iss_position.latitude,
                 lng: issLocation.iss_position.longitude,
             }
+<<<<<<< Updated upstream
         })
         // console.log the result within the .then chain
         .then(data => console.log(data))
@@ -29,3 +30,13 @@ function getIssPosition() {
 }
 
 getIssPosition();
+=======
+        });
+
+}
+
+// psst.... don't forget to call the function
+getIssPosition();
+
+console.log(getIssPosition());
+>>>>>>> Stashed changes
